@@ -1,0 +1,15 @@
+---
+erlang_version: "26.2.5.2"
+rabbitmq_version: "3.13.7"  
+
+# GPG keys URLs
+erlang_gpg_key_url: "https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key"
+rabbitmq_gpg_key_url: "https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key"
+
+# Repositories URLs
+erlang_repo_url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-erlang/deb/debian bookworm main"
+rabbitmq_repo_url: "https://ppa1.rabbitmq.com/rabbitmq/rabbitmq-server/deb/debian bookworm main"
+
+rabbitmq_user: "admin"
+rabbitmq_password: "admin"
+

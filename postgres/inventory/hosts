@@ -1,0 +1,14 @@
+
+[postgres_servers]
+postgres1 ansible_host=172.31.14.133 ansible_user=admin
+
+
+
+
+# [postgres_servers]
+# postgres1 ansible_host=10.61.61.70 ansible_user=admin
+# postgres2 ansible_host=10.61.61.71 ansible_user=admin
+# postgres3 ansible_host=10.61.61.72 ansible_user=admin
+# postgres4 ansible_host=10.61.61.73 ansible_user=admin
+# postgres5 ansible_host=10.61.61.74 ansible_user=admin
+

@@ -1,0 +1,25 @@
+---
+- name: Enable RabbitMQ Management Plugin
+  command: rabbitmq-plugins enable rabbitmq_management
+  become: true
+  register: enable_plugin
+  changed_when: "'rabbitmq_management' in enable_plugin.stdout"
+
+- name: Create RabbitMQ user if not exists
+  shell: |
+    if ! rabbitmqctl list_users | grep -qw {{ rabbitmq_user }}; then
+      rabbitmqctl add_user {{ rabbitmq_user }} {{ rabbitmq_password }}
+    fi
+  become: true
+
+- name: Set RabbitMQ user tags to administrator
+  shell: |
+    if rabbitmqctl list_users | grep -qw {{ rabbitmq_user }}; then
+      rabbitmqctl set_user_tags {{ rabbitmq_user }} administrator
+    fi
+  become: true
+
+- name: Set RabbitMQ user permissions
+  shell: |
+    rabbitmqctl set_permissions -p / {{ rabbitmq_user }} ".*" ".*" ".*"
+  become: true

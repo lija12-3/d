@@ -1,0 +1,18 @@
+---
+- name: Set the hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Update /etc/hosts with the new hostname
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^{{ ansible_host }}'
+    line: "{{ ansible_host }} {{ inventory_hostname }}"
+    state: present
+
+- name: Ensure hostname change is applied after reboot
+  ansible.builtin.command:
+    cmd: hostnamectl set-hostname "{{ inventory_hostname }}"
+  notify:
+    - reboot system
+

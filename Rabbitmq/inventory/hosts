@@ -1,0 +1,12 @@
+[rabbitmq_servers]
+rabbitmq1 ansible_host=172.31.5.152 ansible_user=admin
+
+
+
+
+
+# [rabbitmq_servers]
+# rabbitmq1 ansible_host=10.61.61.60 ansible_user=admin
+# rabbitmq2 ansible_host=10.61.61.61 ansible_user=admin
+# rabbitmq3 ansible_host=10.61.61.62 ansible_user=admin
+# rabbitmq4 ansible_host=10.61.61.63 ansible_user=admin

@@ -1,0 +1,28 @@
+- name: Create new PostgreSQL user
+  ansible.builtin.postgresql_user:
+    name: "{{ new_username }}"
+    password: "{{ new_user_password }}"
+    state: present
+    login_user: "postgres"
+    login_password: "{{ postgres_password }}"
+    no_log: true
+  become: yes  # Added become for elevated privileges
+
+- name: Create new PostgreSQL database
+  ansible.builtin.postgresql_db:
+    name: "{{ new_database }}"
+    owner: "{{ new_username }}"
+    state: present
+    login_user: "postgres"
+    login_password: "{{ postgres_password }}"
+    no_log: true
+  become: yes  # Added become for elevated privileges
+
+
+- name: Grant privileges to new user on new database
+  ansible.builtin.postgresql_privs:
+    db: "{{ new_database }}"
+    privs: "ALL"
+    role: "{{ new_username }}"
+    state: present
+  become: yes  # Added become for elevated privileges

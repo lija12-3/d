@@ -1,0 +1,63 @@
+- name: Configure PostgreSQL to listen on specified addresses
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+    regexp: '^#?listen_addresses'
+    line: "listen_addresses = '{{ postgresql_listen_addresses }}'"
+    state: present
+  become: yes
+
+- name: Set PostgreSQL Unix domain socket directory
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/postgresql.conf"
+    regexp: '^#?unix_socket_directories'
+    line: "unix_socket_directories = '{{ postgresql_socket_dir }}'"
+    state: present
+  become: yes
+
+- name: Set permissions on PostgreSQL socket directory
+  ansible.builtin.file:
+    path: "{{ postgresql_socket_dir }}"
+    owner: postgres
+    group: postgres
+    mode: '0770'
+    state: directory
+  become: yes
+
+- name: Ensure scram-sha-256 for all users on Unix domain sockets
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    regexp: '^local\s+all\s+all\s+.*'
+    line: 'local   all             all                                     scram-sha-256'
+    backup: yes
+    state: present
+  become: yes
+
+- name: Ensure md5 for postgres user on Unix domain sockets
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    regexp: '^local\s+all\s+postgres\s+.*'
+    line: 'local   all             postgres                                md5'
+    backup: yes
+    state: present
+  become: yes
+
+- name: Set password for postgres user
+  ansible.builtin.postgresql_user:
+    name: postgres
+    password: "{{ postgresql_password }}"
+    login_user: postgres
+    login_password: "{{ postgresql_password }}"  # Provide the correct password if any
+  become: yes
+
+- name: Reload PostgreSQL configuration
+  ansible.builtin.systemd:
+    name: postgresql
+    state: reloaded
+  become: yes
+
+- name: Ensure PostgreSQL service is enabled and started
+  ansible.builtin.service:
+    name: postgresql
+    state: started
+    enabled: yes
+  become: yes

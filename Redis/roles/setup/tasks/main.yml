@@ -1,0 +1,35 @@
+- name: Ensure curl and gpg are installed
+  ansible.builtin.apt:
+    name:
+      - curl
+      - gpg
+    state: present
+    update_cache: yes
+    
+- name: Remove old Redis GPG key
+  ansible.builtin.file:
+    path: "{{ redis_keyring_path }}"
+    state: absent
+
+- name: Add the Redis GPG key
+  ansible.builtin.shell:
+    cmd: curl -fsSL "{{ redis_gpg_key_url }}" | gpg --dearmor -o "{{ redis_keyring_path }}"
+
+- name: Add the Redis repository to sources list
+  ansible.builtin.shell:
+    cmd: echo "deb [signed-by={{ redis_keyring_path }}] {{ redis_repo_url }} $(lsb_release -cs) main" | tee "{{ redis_repo_file }}"
+
+- name: Update the package list
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install Redis server
+  ansible.builtin.apt:
+    name: "{{ redis_package_name }}"
+    state: present
+
+- name: Ensure Redis service is started and enabled
+  ansible.builtin.service:
+    name: "{{ redis_package_name }}"
+    state: started
+    enabled: yes

@@ -1,0 +1,11 @@
+- name: Deploy Redis
+  hosts: redis_servers
+  become: true
+  vars_files:
+    - group_vars/all.yml
+  roles:
+    - change_hostname
+    - setup
+    - redis_bind_update
+    - redis_authentication_setup
+

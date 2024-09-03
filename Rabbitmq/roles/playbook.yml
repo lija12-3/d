@@ -1,0 +1,12 @@
+---
+- name: Deploy RabbitMQ
+  hosts: rabbitmq_servers
+  become: true
+  vars_files:
+    - group_vars/all.yml
+
+  roles:
+    - change_hostname
+    - setup
+    - rabbitmq_install
+    - rabbitmq_management

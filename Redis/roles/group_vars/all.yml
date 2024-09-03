@@ -1,0 +1,8 @@
+    redis_gpg_key_url: "https://packages.redis.io/gpg"
+    redis_repo_url: "https://packages.redis.io/deb"
+    redis_keyring_path: "/usr/share/keyrings/redis-archive-keyring.gpg"
+    redis_repo_file: "/etc/apt/sources.list.d/redis.list"
+    redis_package_name: "redis-server"
+    redis_version: "7.4.0"
+
+    redis_password: "admin"

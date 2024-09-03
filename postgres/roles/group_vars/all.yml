@@ -1,0 +1,9 @@
+
+postgresql_version: "16"                    # PostgreSQL version to install
+postgresql_listen_addresses: "*"   
+postgresql_password: "admin"
+new_username: "mynewuser"
+new_user_password: "user"
+new_database: "mynewdb"
+postgresql_socket_dir: /var/run/postgresql
+

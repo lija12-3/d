@@ -1,0 +1,31 @@
+---
+- name: Update package indices
+  apt:
+    update_cache: yes
+
+- name: Install Erlang packages
+  apt:
+    name:
+      - "erlang-base"
+      - "erlang-asn1"
+      - "erlang-crypto"
+      - "erlang-eldap"
+      - "erlang-ftp"
+      - "erlang-inets"
+      - "erlang-mnesia"
+      - "erlang-os-mon"
+      - "erlang-parsetools"
+      - "erlang-public-key"
+      - "erlang-runtime-tools"
+      - "erlang-snmp"
+      - "erlang-ssl"
+      - "erlang-syntax-tools"
+      - "erlang-tftp"
+      - "erlang-tools"
+      - "erlang-xmerl"
+    state: present
+
+- name: Install rabbitmq-server
+  apt:
+    name: "rabbitmq-server"
+    state: present

@@ -1,0 +1,11 @@
+---
+- name: Set up PostgreSQL on Debian 16
+  hosts: postgres_servers
+  become: yes
+  vars_files:
+    - group_vars/all.yml
+  roles:
+    - change_hostname
+    - install_postgresql
+    - configure_postgresql
+    - manage_db_users
